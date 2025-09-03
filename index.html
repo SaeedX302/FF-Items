@@ -13,14 +13,14 @@
   <meta name="description" content="Search Free Fire game items by name or description to retrieve item ID, name & details. Battle in Style and be the last survivor!">
   <meta property="og:description" content="Search Free Fire game items by name or description to retrieve item ID, name & details.">
   <meta name="keywords" content="Free Fire items, Free Fire item ID, FF items list, Starexx FF, Garena Free Fire, battle royale, Starexx Items, Free Fire items, Free Fire item ID, Garena Free Fire, FF items database, weapon skins, character skins, emotes, bundles, parachutes, loot crates, pet skins, Free Fire cosmetics, Free Fire shop items, FF rare items, FF weapon upgrades, Free Fire gun skins, FF character costumes, Free Fire emoticons, FF vehicle skins, Free Fire gloo wall skins, FF backpacks, Free Fire melee weapons">
-  <meta property="og:title" content="FFItems">
+  <meta property="og:title" content="TSun FF-ITEMS">
   <meta property="og:image" content="https://9112000.github.io/FFItems/icons/android-chrome-192x192.png">
   <meta property="og:type" content="website">
   <meta name="author" content="Starexx">
   <meta property="og:url" content="https://9112000.github.io/FFItems/">
   <meta name="twitter:card" content="summary_large_image">
-  <title>Starexx Items</title>
-  <meta name="twitter:title" content="FFItems">
+  <title>TSun FF-ITEMS</title>
+  <meta name="twitter:title" content="TSun FF-ITEMS">
   <meta name="twitter:description" content="Quickly find Free Fire item IDs, names & details with Starexx Items.">
   <meta name="twitter:image" content="https://9112000.github.io/FFItems/icons/android-chrome-192x192.png">
   <meta name="google-site-verification" content="joLKEyzfZROYT_Ck4mea3yx94rNwOqRwqalvV-xcA8U" />
@@ -31,7 +31,7 @@
   <div class="loading-dot" id="loadingDot"></div>
   <div class="header" id="header">
    <div class="header-title-container">
-    <div class="header-title">FFItems</div>
+    <div class="header-title">TSun FF-ITEMS</div>
     <div class="header-menu" id="menuButton">
      <i class="fas fa-bars"></i>
     </div>
@@ -74,6 +74,13 @@
     <div class="sidebar-submenu" id="typesSubmenu">
      <div class="sidebar-filter-options" id="filter-itemType-buttons"></div>
     </div>
+    <div class="sidebar-menu-item" id="changelogButton">
+     <span>Changelogs</span>
+     <i class="fas fa-history"></i>
+    </div>
+    <div class="sidebar-credits">
+        Made with ❤️ by ༯𝙎ค૯𝙀𝘿✘🫀
+    </div>
    </div>
   </div>
   <div class="filter-tabs" id="filterTabs"></div>
@@ -111,6 +118,14 @@
     </p>
     <button class="modal-close" onclick="closeModal()">Tap to close</button>
    </div>
+  </div>
+  <div class="modal" id="changelogModal">
+    <div class="modal-bg"></div>
+    <div class="modal-content">
+      <h2><i class="fas fa-history"></i> Changelog</h2>
+      <div id="changelogHistory"></div>
+      <button class="modal-close" onclick="closeChangelogModal()">Tap to close</button>
+    </div>
   </div>
   <script src="src/script.js"></script>
  </body>
