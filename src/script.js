@@ -42,6 +42,15 @@ const rarityCardImages = {
     'RED': 'assets/images/card/ARTIFACT.png'
 };
 
+const changelog = [
+    { date: "2025-09-03", changes: ["Updated main title to 'TSun FF-ITEMS'.", "Redesigned Changelog button and modal.", "Replaced Credits button with styled text in the menu."] },
+    { date: "2024-09-02", changes: ["Added a new 'Changelog' feature to track updates.", "Improved the UI for a more modern look and feel."] },
+    { date: "2024-08-28", changes: ["Fixed a bug where the search filter was not working correctly.", "Added new items to the database."] },
+    { date: "2024-08-15", changes: ["The initial release of the FFItems website.", "Added over 1000 items to the database."] },
+    { date: "2024-08-01", changes: ["Beta testing phase started.", "Added sorting options for items."] },
+    { date: "2024-07-20", changes: ["Added a new 'Rarity' filter.", "Improved the image loading speed."] }
+];
+
 document.addEventListener("DOMContentLoaded", () => {
     setTimeout(() => {
         document.getElementById("loadingDot").style.display = "none";
@@ -58,6 +67,7 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("sortMenu").addEventListener("click", () => toggleSubmenu('sort'));
     document.getElementById("collectionsMenu").addEventListener("click", () => toggleSubmenu('collections'));
     document.getElementById("typesMenu").addEventListener("click", () => toggleSubmenu('types'));
+    document.getElementById("changelogButton").addEventListener("click", openChangelogModal);
 
     document.addEventListener('touchmove', function(e) {
         if (modalOpen) {
@@ -494,10 +504,37 @@ function closeModal() {
     }, 300);
 }
 
+function openChangelogModal() {
+    const modal = document.getElementById("changelogModal");
+    const changelogHistory = document.getElementById("changelogHistory");
+    changelogHistory.innerHTML = "";
+    changelog.forEach(item => {
+        const entry = document.createElement("div");
+        entry.className = "changelog-entry";
+        entry.innerHTML = `<h3>${item.date}</h3><ul>${item.changes.map(change => `<li>${change}</li>`).join('')}</ul>`;
+        changelogHistory.appendChild(entry);
+    });
+    modal.classList.add("show");
+    document.body.style.overflow = "hidden";
+    modalOpen = true;
+}
+
+function closeChangelogModal() {
+    const modal = document.getElementById("changelogModal");
+    modal.classList.remove("show");
+    document.body.style.overflow = "auto";
+    modalOpen = false;
+}
+
 document.addEventListener('click', function(event) {
     const modal = document.getElementById('modal');
     if (event.target === modal && modalOpen) {
         closeModal();
+    }
+    
+    const changelogModal = document.getElementById('changelogModal');
+    if (event.target === changelogModal && modalOpen) {
+        closeChangelogModal();
     }
 });
 
