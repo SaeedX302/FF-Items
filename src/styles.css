@@ -146,6 +146,53 @@ body::-webkit-scrollbar {
   color: #ccc;
 }
 
+.sidebar-menu-item {
+  padding: 15px;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: var(--border-radius-small);
+  margin-bottom: 10px;
+  background-color: var(--glass-background);
+  border: 1px solid var(--glass-border);
+  transition: all var(--transition-speed) ease;
+}
+
+.sidebar-menu-item:hover {
+    background-color: var(--glass-hover-background);
+    border-color: var(--glass-hover-border);
+}
+
+.sidebar-menu-item.active {
+    background-color: var(--glass-hover-background);
+}
+
+.sidebar-menu-item.active i {
+  transform: rotate(90deg);
+}
+
+.sidebar-submenu {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease-in-out;
+  padding-left: 15px;
+  border-left: 2px solid var(--glass-border);
+  margin-left: 15px;
+  margin-bottom: 10px;
+}
+
+.sidebar-submenu.open {
+  max-height: 500px;
+}
+
+.sidebar-filter-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding-top: 10px;
+}
+
 .sidebar-filter-button {
   padding: 8px 12px;
   background: var(--glass-background);
@@ -344,12 +391,14 @@ body::-webkit-scrollbar {
 .modal-close-icon:hover { color: #fff; }
 
 #changelogModal .modal-content {
-  max-height: 70vh;
-  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
 }
 
 #changelogHistory {
-    padding-right: 10px;
+    flex-grow: 1;
+    overflow-y: auto;
+    padding-right: 15px;
 }
 
 #changelogHistory::-webkit-scrollbar {
@@ -453,15 +502,6 @@ body::-webkit-scrollbar {
   border-color: var(--button-active-background);
 }
 
-.sidebar-menu-item {
-  padding: 12px 0;
-  cursor: pointer;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border-bottom: 1px solid var(--glass-border);
-}
-
 #changelogButton {
   background: linear-gradient(45deg, #ffc107, #ff8a00);
   border: none;
@@ -477,19 +517,6 @@ body::-webkit-scrollbar {
   box-shadow: 0 0 15px rgba(255, 193, 7, 0.5);
   transform: scale(1.02);
 }
-
-.sidebar-menu-item i { transition: transform .2s; }
-
-.sidebar-menu-item.active i { transform: rotate(90deg); }
-
-.sidebar-submenu {
-  max-height: 0;
-  overflow: hidden;
-  transition: max-height .3s;
-  padding-left: 15px;
-}
-
-.sidebar-submenu.open { max-height: 500px; }
 
 .sidebar-credits {
   text-align: center;
