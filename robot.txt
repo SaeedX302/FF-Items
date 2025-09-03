@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://FFItems.tsunstudio.pw/sitemap.xml
