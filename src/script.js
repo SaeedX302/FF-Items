@@ -43,6 +43,8 @@ const rarityCardImages = {
 };
 
 const changelog = [
+    { date: "2025-09-03", changes: ["Fixed changelog scrollbar.", "Enabled tap-to-close for the changelog modal.", "Redesigned sidebar category layout."] },
+    { date: "2025-09-03", changes: ["Implemented a new iOS 18 'water glass' inspired UI.", "Added a close button to the changelog pop-up."] },
     { date: "2025-09-03", changes: ["Updated main title to 'TSun FF-ITEMS'.", "Redesigned Changelog button and modal.", "Replaced Credits button with styled text in the menu."] },
     { date: "2024-09-02", changes: ["Added a new 'Changelog' feature to track updates.", "Improved the UI for a more modern look and feel."] },
     { date: "2024-08-28", changes: ["Fixed a bug where the search filter was not working correctly.", "Added new items to the database."] },
@@ -476,32 +478,9 @@ function openModal(name, itemId, iconName, imageUrl, description, description2, 
 
 function closeModal() {
     const modal = document.getElementById("modal");
-    const modalImgContainer = document.getElementById("modalImgContainer");
-    const modalContent = document.querySelector('.modal-content');
-    
-    if (!lastClickedCard) {
-        modal.classList.remove("show");
-        document.body.style.overflow = "auto";
-        modalOpen = false;
-        return;
-    }
-    
-    modalContent.style.opacity = '0';
-    
-    const cardRect = lastClickedCard.getBoundingClientRect();
-    const cardImg = lastClickedCard.querySelector('img');
-    
-    modalImgContainer.style.width = `${cardImg.width}px`;
-    modalImgContainer.style.height = `${cardImg.height}px`;
-    modalImgContainer.style.left = `${cardRect.left + (cardRect.width - cardImg.width)/2}px`;
-    modalImgContainer.style.top = `${cardRect.top + (cardRect.height - cardImg.height)/2}px`;
-    modalImgContainer.style.transform = 'none';
-    
-    setTimeout(() => {
-        modal.classList.remove("show");
-        document.body.style.overflow = "auto";
-        modalOpen = false;
-    }, 300);
+    modal.classList.remove("show");
+    document.body.style.overflow = "auto";
+    modalOpen = false;
 }
 
 function openChangelogModal() {
@@ -527,13 +506,8 @@ function closeChangelogModal() {
 }
 
 document.addEventListener('click', function(event) {
-    const modal = document.getElementById('modal');
-    if (event.target === modal && modalOpen) {
+    if (event.target.matches('.modal-bg')) {
         closeModal();
-    }
-    
-    const changelogModal = document.getElementById('changelogModal');
-    if (event.target === changelogModal && modalOpen) {
         closeChangelogModal();
     }
 });
