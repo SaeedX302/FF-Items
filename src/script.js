@@ -43,6 +43,8 @@ const rarityCardImages = {
 };
 
 const changelog = [
+    { date: "2025-09-04", changes: ["Added up/down SVG scroll buttons to the changelog modal."] },
+    { date: "2025-09-04", changes: ["Improved changelog scroll functionality.", "Enhanced the visual design of the changelog for a more professional look."] },
     { date: "2025-09-03", changes: ["Fixed changelog scrollbar.", "Enabled tap-to-close for the changelog modal.", "Redesigned sidebar category layout."] },
     { date: "2025-09-03", changes: ["Implemented a new iOS 18 'water glass' inspired UI.", "Added a close button to the changelog pop-up."] },
     { date: "2025-09-03", changes: ["Updated main title to 'TSun FF-ITEMS'.", "Redesigned Changelog button and modal.", "Replaced Credits button with styled text in the menu."] },
@@ -70,6 +72,16 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("collectionsMenu").addEventListener("click", () => toggleSubmenu('collections'));
     document.getElementById("typesMenu").addEventListener("click", () => toggleSubmenu('types'));
     document.getElementById("changelogButton").addEventListener("click", openChangelogModal);
+
+    document.getElementById("changelogScrollUp").addEventListener("click", () => {
+        const changelogHistory = document.getElementById("changelogHistory");
+        changelogHistory.scrollBy({ top: -80, behavior: 'smooth' });
+    });
+
+    document.getElementById("changelogScrollDown").addEventListener("click", () => {
+        const changelogHistory = document.getElementById("changelogHistory");
+        changelogHistory.scrollBy({ top: 80, behavior: 'smooth' });
+    });
 
     document.addEventListener('touchmove', function(e) {
         if (modalOpen) {
