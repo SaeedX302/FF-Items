@@ -124,7 +124,15 @@
     <div class="modal-content">
       <div class="modal-header">
         <h2><i class="fas fa-history"></i> Changelog</h2>
-        <i class="fas fa-times modal-close-icon" onclick="closeChangelogModal()"></i>
+        <div class="modal-controls">
+          <button id="changelogScrollUp" class="changelog-scroll-btn">
+            <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor"><path d="M480-528 296-344l-56-56 240-240 240 240-56 56-184-184-184 184Z"/></svg>
+          </button>
+          <button id="changelogScrollDown" class="changelog-scroll-btn">
+            <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor"><path d="M480-344 240-584l56-56 184 184 184-184 56 56-240 240Z"/></svg>
+          </button>
+          <i class="fas fa-times modal-close-icon" onclick="closeChangelogModal()"></i>
+        </div>
       </div>
       <div id="changelogHistory"></div>
     </div>
