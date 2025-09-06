@@ -46,6 +46,11 @@ body {
   font-family: var(--font-family);
 }
 
+body.modal-open {
+  overflow: hidden;
+}
+
+
 body::-webkit-scrollbar {
   display: none;
 }
@@ -336,7 +341,6 @@ body::-webkit-scrollbar {
   height: 100%;
   z-index: 1000;
   overflow: hidden;
-  touch-action: none;
 }
 
 .modal.show { display: flex; align-items: center; justify-content: center; }
@@ -372,6 +376,12 @@ body::-webkit-scrollbar {
   background-color: var(--glass-background);
 }
 
+#changelogModal .modal-content {
+  max-width: 500px;
+  width: 90%;
+  max-height: 60vh;
+}
+
 .modal.show .modal-content { opacity: 1; transform: scale(1); }
 
 .modal-header {
@@ -388,27 +398,7 @@ body::-webkit-scrollbar {
 }
 
 .changelog-scroll-btn {
-  background: var(--glass-background);
-  border: 1px solid var(--glass-border);
-  color: var(--text-color);
-  cursor: pointer;
-  border-radius: 50%;
-  width: 32px;
-  height: 32px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0;
-  transition: all var(--transition-speed) ease;
-}
-
-.changelog-scroll-btn:hover {
-  background: var(--glass-hover-background);
-  border-color: var(--glass-hover-border);
-}
-
-.changelog-scroll-btn:active {
-  transform: scale(0.95);
+  display: none;
 }
 
 .modal-close-icon {
@@ -429,6 +419,9 @@ body::-webkit-scrollbar {
     flex-grow: 1;
     overflow-y: auto;
     padding-right: 15px;
+    -webkit-overflow-scrolling: touch;
+    touch-action: pan-y;
+    scroll-behavior: smooth;
 }
 
 #changelogHistory::-webkit-scrollbar {
