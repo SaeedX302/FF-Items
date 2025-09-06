@@ -12,7 +12,6 @@ let uniqueFilters = {
     collectionType: new Set()
 };
 let lastClickedCard = null;
-let modalOpen = false;
 let currentSort = 'rarity';
 let currentTypeFilter = '';
 let currentCollectionFilter = '';
@@ -43,6 +42,9 @@ const rarityCardImages = {
 };
 
 const changelog = [
+    { date: "2025-09-06", changes: ["Optimized the changelog pop-up size for a better user experience.", "Implemented smoother scrolling for the changelog, especially on low-end devices."] },
+    { date: "2025-09-06", changes: ["Fixed changelog scrolling on mobile devices.", "Made the changelog popup width responsive for smaller screens."] },
+    { date: "2025-09-06", changes: ["Made the changelog popup medium-sized.", "Enabled scrolling within the entire changelog area.", "Removed the up/down scroll buttons from the changelog modal."] },
     { date: "2025-09-04", changes: ["Added up/down SVG scroll buttons to the changelog modal."] },
     { date: "2025-09-04", changes: ["Improved changelog scroll functionality.", "Enhanced the visual design of the changelog for a more professional look."] },
     { date: "2025-09-03", changes: ["Fixed changelog scrollbar.", "Enabled tap-to-close for the changelog modal.", "Redesigned sidebar category layout."] },
@@ -72,22 +74,6 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("collectionsMenu").addEventListener("click", () => toggleSubmenu('collections'));
     document.getElementById("typesMenu").addEventListener("click", () => toggleSubmenu('types'));
     document.getElementById("changelogButton").addEventListener("click", openChangelogModal);
-
-    document.getElementById("changelogScrollUp").addEventListener("click", () => {
-        const changelogHistory = document.getElementById("changelogHistory");
-        changelogHistory.scrollBy({ top: -80, behavior: 'smooth' });
-    });
-
-    document.getElementById("changelogScrollDown").addEventListener("click", () => {
-        const changelogHistory = document.getElementById("changelogHistory");
-        changelogHistory.scrollBy({ top: 80, behavior: 'smooth' });
-    });
-
-    document.addEventListener('touchmove', function(e) {
-        if (modalOpen) {
-            e.preventDefault();
-        }
-    }, { passive: false });
 });
 
 function toggleSubmenu(type) {
@@ -469,8 +455,7 @@ function openModal(name, itemId, iconName, imageUrl, description, description2, 
     modalImgContainer.style.transform = 'none';
     
     modal.classList.add("show");
-    document.body.style.overflow = "hidden";
-    modalOpen = true;
+    document.body.classList.add("modal-open");
     
     setTimeout(() => {
         const modalRect = modal.getBoundingClientRect();
@@ -491,8 +476,7 @@ function openModal(name, itemId, iconName, imageUrl, description, description2, 
 function closeModal() {
     const modal = document.getElementById("modal");
     modal.classList.remove("show");
-    document.body.style.overflow = "auto";
-    modalOpen = false;
+    document.body.classList.remove("modal-open");
 }
 
 function openChangelogModal() {
@@ -506,15 +490,13 @@ function openChangelogModal() {
         changelogHistory.appendChild(entry);
     });
     modal.classList.add("show");
-    document.body.style.overflow = "hidden";
-    modalOpen = true;
+    document.body.classList.add("modal-open");
 }
 
 function closeChangelogModal() {
     const modal = document.getElementById("changelogModal");
     modal.classList.remove("show");
-    document.body.style.overflow = "auto";
-    modalOpen = false;
+    document.body.classList.remove("modal-open");
 }
 
 document.addEventListener('click', function(event) {
