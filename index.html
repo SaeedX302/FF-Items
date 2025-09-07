@@ -93,6 +93,12 @@
     <div class="sidebar-submenu" id="typesSubmenu">
      <div class="sidebar-filter-options" id="filter-itemType-buttons"></div>
     </div>
+    <div class="sidebar-menu-item" id="changelogButton">
+        <span>Changelog</span>
+        <svg class="svg-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+         <path d="M9 5l7 7-7 7" />
+        </svg>
+       </div>
    </div>
    <div class="github-footer">
     <svg class="github-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" onclick="window.open('https://github.com/9112000/FFItems', '_blank')">
@@ -132,6 +138,48 @@
     <button class="modal-close" id="modalClose">Tap to close</button>
    </div>
   </div>
+  <div class="modal" id="changelogModal">
+    <div class="modal-bg" id="changelogModalBg"></div>
+    <div class="modal-content">
+     <h2>Changelog</h2>
+     <div class="changelog-entry">
+      <div class="changelog-header">
+       <span class="changelog-version">v1.2.0</span>
+       <span class="changelog-date">2025-09-07</span>
+      </div>
+      <p>UI Redesign: Implemented a modern, sleek UI inspired by iOS 26 Liquid Glass style and native animations.</p>
+     </div>
+     <div class="changelog-entry">
+      <div class="changelog-header">
+       <span class="changelog-version">v1.1.5</span>
+       <span class="changelog-date">2025-08-22</span>
+      </div>
+      <p>Performance improvements and bug fixes.</p>
+     </div>
+     <div class="changelog-entry">
+      <div class="changelog-header">
+       <span class="changelog-version">v1.1.0</span>
+       <span class="changelog-date">2025-08-15</span>
+      </div>
+      <p>Added new filter options for items.</p>
+     </div>
+     <div class="changelog-entry">
+      <div class="changelog-header">
+       <span class="changelog-version">v1.0.5</span>
+       <span class="changelog-date">2025-07-30</span>
+      </div>
+      <p>Fixed a bug where some item images were not loading correctly.</p>
+     </div>
+     <div class="changelog-entry">
+        <div class="changelog-header">
+         <span class="changelog-version">v1.0.0</span>
+         <span class="changelog-date">2025-07-11</span>
+        </div>
+        <p>Initial release of the FFItems website.</p>
+       </div>
+     <button class="modal-close" id="changelogModalClose">Tap to close</button>
+    </div>
+   </div>
   <script src="src/script.js"></script>
  </body>
 </html>
