@@ -2,7 +2,7 @@ let iconsData = [];
 let assetsData = [];
 let filteredData = [];
 let currentPage = 0;
-const itemsPerPage = 99;
+const itemsPerPage = 100;
 let uniqueFilters = {
      itemType: new Set(),
      Rare: new Set(),
@@ -10,7 +10,7 @@ let uniqueFilters = {
 };
 let lastClickedCard = null;
 let modalOpen = false;
-let currentSort = "rarity";
+let currentSort = "";
 let currentTypeFilter = "";
 let currentCollectionFilter = "";
 let currentRarityFilter = "";
@@ -58,12 +58,18 @@ document.addEventListener("DOMContentLoaded", () => {
      const modalClose = document.getElementById("modalClose");
      const itemsButton = document.getElementById("itemsButton");
      const assetsButton = document.getElementById("assetsButton");
+     const changelogButton = document.getElementById("changelogButton");
+     const changelogModalBg = document.getElementById("changelogModalBg");
+     const changelogModalClose = document.getElementById("changelogModalClose");
 
      if (menuButton) menuButton.addEventListener("click", toggleSidebar);
      if (sidebarClose) sidebarClose.addEventListener("click", toggleSidebar);
      if (search) search.addEventListener("input", filterIcons);
      if (modalBg) modalBg.addEventListener("click", closeModal);
      if (modalClose) modalClose.addEventListener("click", closeModal);
+     if (changelogButton) changelogButton.addEventListener("click", openChangelogModal);
+     if (changelogModalBg) changelogModalBg.addEventListener("click", closeChangelogModal);
+     if (changelogModalClose) changelogModalClose.addEventListener("click", closeChangelogModal);
 
      if (itemsButton) itemsButton.addEventListener("click", () => switchDataType("items"));
      if (assetsButton) assetsButton.addEventListener("click", () => switchDataType("assets"));
@@ -99,15 +105,21 @@ document.addEventListener("DOMContentLoaded", () => {
                }, 3000);
           });
      });
-
-     // Parallax effect for background
-    document.addEventListener('mousemove', (e) => {
-        const body = document.querySelector('body');
-        const x = (window.innerWidth / 2 - e.pageX) / 25;
-        const y = (window.innerHeight / 2 - e.pageY) / 25;
-        body.style.backgroundPosition = `${50 + x}% ${50 + y}%`;
-    });
 });
+
+function openChangelogModal() {
+    const changelogModal = document.getElementById("changelogModal");
+    if (changelogModal) {
+        changelogModal.classList.add("show");
+    }
+}
+
+function closeChangelogModal() {
+    const changelogModal = document.getElementById("changelogModal");
+    if (changelogModal) {
+        changelogModal.classList.remove("show");
+    }
+}
 
 function toggleSubmenu(type) {
      const menuItem = document.getElementById(`${type}Menu`);
@@ -166,7 +178,7 @@ async function fetchIcons() {
           });
 
           populateFilterButtons("filter-Rare-buttons", uniqueFilters.Rare, "Rare");
-          populateFilterButtons("filter-sort-buttons", new Set(["Rarity", "ID", "Name"]), "sort");
+          populateFilterButtons("filter-sort-buttons", new Set(["ID", "Name", "Rarity"]), "sort");
           populateFilterButtons("filter-collectionType-buttons", uniqueFilters.collectionType, "collectionType");
           populateFilterButtons("filter-itemType-buttons", uniqueFilters.itemType, "itemType");
 
@@ -225,9 +237,9 @@ function populateFilterButtons(containerId, values, filterType) {
 
                button.onclick = function () {
                     const buttons = container.querySelectorAll(".sidebar-filter-button");
-                    
+                    buttons.forEach((btn) => btn.classList.remove("active"));
+
                     if (filterType === "sort") {
-                         buttons.forEach((btn) => btn.classList.remove("active"));
                          button.classList.add("active");
                          currentSort = value.toLowerCase();
                          sortIcons();
@@ -323,6 +335,35 @@ function populateFilterTabs() {
                };
                filterTabs.appendChild(tab);
           });
+
+     Array.from(uniqueFilters.collectionType)
+          .sort()
+          .forEach((collection) => {
+               if (!collection) return;
+               const tab = document.createElement("button");
+               tab.className = "filter-tab";
+               tab.textContent = collection;
+               tab.onclick = () => {
+                    currentCollectionFilter = collection;
+                    currentTypeFilter = "";
+                    currentRarityFilter = "";
+
+                    document.querySelectorAll(".filter-tab").forEach((t) => t.classList.remove("active"));
+                    tab.classList.add("active");
+
+                    document.querySelectorAll(".sidebar-filter-button").forEach((btn) => {
+                         if (btn.dataset.filterType !== "sort") {
+                              btn.classList.remove("active");
+                         }
+                    });
+
+                    const collectionButton = document.querySelector(`.sidebar-filter-button[data-filter-value="${collection}"]`);
+                    if (collectionButton) collectionButton.classList.add("active");
+
+                    applyFilters();
+               };
+               filterTabs.appendChild(tab);
+          });
 }
 
 function showError() {
@@ -410,22 +451,57 @@ function renderIcons() {
           card.className = "icon-card";
           card.dataset.index = start + index;
           card.onclick = (e) => {
+               document.querySelectorAll(".icon-card").forEach((c) => {
+                    c.classList.remove("active");
+               });
+               card.classList.add("active");
+               lastClickedCard = card;
                showModal(icon);
           };
 
-          const cardBg = document.createElement("img");
-          cardBg.src = currentDataType === "items" ? icon.cardImageUrl : '';
-          cardBg.alt = icon.name + " card background";
-          cardBg.className = "card-bg";
-          cardBg.style.display = currentDataType === "items" ? 'block' : 'none';
-          
-          const cardIcon = document.createElement("img");
-          cardIcon.src = icon.iconUrl;
-          cardIcon.alt = icon.name;
-          cardIcon.className = "card-icon";
+          const cardContainer = document.createElement("div");
+          cardContainer.style.position = "relative";
+          cardContainer.style.width = "100%";
+          cardContainer.style.height = "100%";
 
-          card.appendChild(cardBg);
-          card.appendChild(cardIcon);
+          if (currentDataType === "items") {
+               const cardBg = document.createElement("img");
+               cardBg.src = icon.cardImageUrl;
+               cardBg.alt = icon.name + " card background";
+               cardBg.className = "card-bg";
+               cardBg.onerror = () => {
+                    cardBg.src = "https://cdn.jsdelivr.net/gh/9112000/FFItems@master/assets/images/error-404.png";
+               };
+
+               const cardIcon = document.createElement("img");
+               cardIcon.src = icon.iconUrl;
+               cardIcon.alt = icon.name;
+               cardIcon.className = "card-icon";
+               cardIcon.onerror = () => {
+                    cardIcon.src = "https://cdn.jsdelivr.net/gh/9112000/FFItems@master/assets/images/error-404.png";
+               };
+
+               cardContainer.appendChild(cardBg);
+               cardContainer.appendChild(cardIcon);
+          } else {
+               const cardIcon = document.createElement("img");
+               cardIcon.src = icon.iconUrl;
+               cardIcon.alt = icon.name;
+               cardIcon.className = "card-icon";
+               cardIcon.style.position = "absolute";
+               cardIcon.style.top = "50%";
+               cardIcon.style.left = "50%";
+               cardIcon.style.transform = "translate(-50%, -50%)";
+               cardIcon.style.maxWidth = "80%";
+               cardIcon.style.maxHeight = "80%";
+               cardIcon.onerror = () => {
+                    cardIcon.src = "https://cdn.jsdelivr.net/gh/9112000/FFItems@master/assets/images/error-404.png";
+               };
+
+               cardContainer.appendChild(cardIcon);
+          }
+
+          card.appendChild(cardContainer);
           grid.appendChild(card);
      });
 
@@ -438,8 +514,6 @@ function updatePagination() {
 
      const totalPages = Math.ceil(filteredData.length / itemsPerPage);
      paginationDiv.innerHTML = "";
-     
-     if(totalPages <= 1) return;
 
      for (let i = 0; i < totalPages; i++) {
           const button = document.createElement("button");
@@ -462,8 +536,6 @@ function filterIcons() {
 
 function showModal(item) {
      const modal = document.getElementById("modal");
-     if (!modal) return;
-     
      const modalImage = document.getElementById("modalImage");
      const modalDescription = document.getElementById("modalDescription");
      const modalDescription2 = document.getElementById("modalDescription2");
@@ -472,25 +544,46 @@ function showModal(item) {
      const modalType = document.getElementById("modalType");
      const modalRare = document.getElementById("modalRare");
 
-     modalImage.src = item.iconUrl;
-     
-     if(item.dataType === 'item') {
-        modalDescription.textContent = item.name || "Unknown";
-        modalDescription2.textContent = item.description2 || "No additional description";
-        modalItemId.textContent = item.itemId || "Unknown";
-        modalIconName.textContent = item.iconName || "Unknown";
-        modalType.textContent = item.itemType || "Unknown";
-        modalRare.textContent = item.displayRarity || "Unknown";
-     } else {
-        modalDescription.textContent = item.name || "Unknown";
-        modalDescription2.textContent = "";
-        modalItemId.textContent = "N/A";
-        modalIconName.textContent = item.name || "Unknown";
-        modalType.textContent = "Asset";
-        modalRare.textContent = "";
-     }
+     if (modal && modalImage) {
+          modalImage.src = item.iconUrl;
+          modalImage.onerror = () => {
+               modalImage.src = "https://cdn.jsdelivr.net/gh/9112000/FFItems@master/assets/images/error-404.png";
+          };
 
-     modal.classList.add("show");
+          if (item.dataType === "item") {
+               if (modalDescription) modalDescription.textContent = item.name || "Unknown";
+               if (modalDescription2) {
+                    const description = item.description2 || item.description || "No description";
+                    modalDescription2.textContent = description === "No description" || description === "NONE" ? "No description provided" : description;
+               }
+               if (modalItemId) modalItemId.textContent = item.itemId || "Unknown";
+               if (modalIconName) modalIconName.textContent = item.iconName || "Unknown";
+               if (modalType) modalType.textContent = item.itemType || "Unknown";
+               if (modalRare) modalRare.textContent = item.displayRarity || "Unknown";
+               document.querySelectorAll("#modalDescription2, #modalItemId, #modalType, #modalRare").forEach((el) => {
+                    el.style.display = "";
+               });
+               document.querySelectorAll(".divider").forEach((el) => {
+                    el.style.display = "";
+               });
+          } else {
+               if (modalDescription) modalDescription.textContent = "";
+               if (modalDescription2) modalDescription2.textContent = "";
+               if (modalItemId) modalItemId.textContent = "Unavailable in assets mode.";
+               if (modalIconName) modalIconName.textContent = item.name || "Unknown";
+               if (modalType) modalType.textContent = "";
+               if (modalRare) modalRare.textContent = "";
+
+               document.querySelectorAll("#modalDescription2, #item.description, #modalType, #modalRare").forEach((el) => {
+                    el.style.display = "none";
+               });
+               document.querySelectorAll(".divider").forEach((el) => {
+                    el.style.display = "none";
+               });
+          }
+
+          modal.classList.add("show");
+     }
 }
 
 function closeModal() {
@@ -498,4 +591,54 @@ function closeModal() {
      if (modal) {
           modal.classList.remove("show");
      }
+}
+
+function copyToClipboard(text, type) {
+     if (navigator.clipboard && window.isSecureContext) {
+          navigator.clipboard
+               .writeText(text)
+               .then(() => {
+                    showCopyNotification(type);
+               })
+               .catch((err) => {
+                    console.error("Failed to copy: ", err);
+                    fallbackCopyToClipboard(text, type);
+               });
+     } else {
+          fallbackCopyToClipboard(text, type);
+     }
+}
+
+function fallbackCopyToClipboard(text, type) {
+     const textArea = document.createElement("textarea");
+     textArea.value = text;
+     textArea.style.position = "fixed";
+     textArea.style.opacity = 0;
+     document.body.appendChild(textArea);
+     textArea.focus();
+     textArea.select();
+
+     try {
+          const successful = document.execCommand("copy");
+          if (successful) {
+               showCopyNotification(type);
+          }
+     } catch (err) {
+          console.error("Fallback copy failed: ", err);
+     }
+
+     document.body.removeChild(textArea);
+}
+
+function showCopyNotification(type) {
+     alert(`${type} copied to clipboard!`);
+}
+
+if ("serviceWorker" in navigator) {
+     window.addEventListener("load", () => {
+          navigator.serviceWorker
+               .register("sw.js")
+               .then((reg) => console.log("Service worker registered", reg))
+               .catch((err) => console.error("Service worker registration failed", err));
+     });
 }
