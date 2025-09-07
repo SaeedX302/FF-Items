@@ -1,24 +1,35 @@
 @import url(https://cdn.jsdelivr.net/gh/9112000/GFF@main/font.css);
 
 :root {
-    --background-color: #0d0d0f;
-    --text-color: #e0e0e0;
-    --card-background: rgba(22, 22, 26, 0.6);
-    --card-hover-background: rgba(30, 30, 35, 0.8);
-    --card-border: rgba(255, 255, 255, 0.1);
-    --card-hover-border: rgba(120, 100, 255, 0.8);
-    --button-active-background: linear-gradient(135deg, rgba(120, 100, 255, 0.8), rgba(100, 120, 255, 0.8));
+    --background-color: #000;
+    --text-color: #fff;
+    --card-background: rgba(255, 255, 255, 0.1);
+    --card-hover-background: rgba(255, 255, 255, 0.2);
+    --card-border: rgba(255, 255, 255, 0.2);
+    --card-hover-border: #00aaff;
+    --button-active-background: #00aaff;
     --button-active-text: #fff;
-    --header-background: rgba(12, 12, 14, 0.5);
-    --sidebar-background: rgba(18, 18, 22, 0.7);
+    --header-background: rgba(0, 0, 0, 0.3);
+    --header-border: rgba(255, 255, 255, 0.1);
+    --sidebar-background: rgba(0, 0, 0, 0.5);
+    --sidebar-border: rgba(255, 255, 255, 0.1);
     --search-placeholder: #888;
-    --filter-active: rgba(120, 100, 255, 0.8);
+    --filter-active: #00aaff;
     --filter-active-text: #fff;
+    --detail-icon-border: #00aaff;
+    --detail-name-color: #00aaff;
+    --detail-description-color: #ccc;
+    --table-header-background: rgba(0, 0, 0, 0.7);
+    --table-header-color: #00aaff;
+    --table-border: #222;
+    --pagination-background: rgba(255, 255, 255, 0.1);
+    --pagination-border: rgba(255, 255, 255, 0.2);
     --transition-speed: 0.4s;
-    --border-radius-small: 12px;
-    --border-radius-large: 24px;
-    --shadow-color: rgba(0, 0, 0, 0.5);
-    --highlight-color: rgba(120, 100, 255, 1);
+    --spacing-large: 20px;
+    --spacing-medium: 15px;
+    --border-radius-small: 10px;
+    --border-radius-large: 20px;
+    --pastel-gradient: linear-gradient(45deg, #ff9a9e 0%, #fad0c4 99%, #fad0c4 100%);
 }
 
 * {
@@ -32,8 +43,8 @@
 }
 
 ::selection {
-    background-color: rgba(120, 100, 255, 0.2);
-    color: var(--text-color);
+    background-color: rgba(0, 170, 255, 0.3);
+    color: #fff;
 }
 
 body {
@@ -43,12 +54,24 @@ body {
     padding: 0;
     min-height: 100vh;
     touch-action: pan-y;
-    background-image: url("https://cdn.jsdelivr.net/gh/9112000/FFItems@3e6975e/assets/images/background.jpg");
-    background-size: cover;
+    background-image: var(--pastel-gradient);
+    background-size: 400% 400%;
     background-attachment: fixed;
     background-position: center;
     overflow-x: hidden;
-    transition: background-color var(--transition-speed) ease;
+    animation: gradientBG 15s ease infinite;
+}
+
+@keyframes gradientBG {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
 }
 
 body::-webkit-scrollbar {
@@ -62,11 +85,11 @@ body::-webkit-scrollbar {
     background: var(--header-background);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    border-bottom: 1px solid var(--header-border);
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 15px 20px;
+    padding: 10px 15px;
     transition: all var(--transition-speed) ease;
 }
 
@@ -92,35 +115,34 @@ body::-webkit-scrollbar {
     justify-content: center;
     cursor: pointer;
     border: none;
-    margin-left: 15px;
-    transition: background-color var(--transition-speed) ease, transform var(--transition-speed) ease;
+    margin-left: 10px;
+    transition: background 0.3s ease;
 }
 
 .header-menu-button:hover {
-    background-color: rgba(255, 255, 255, 0.1);
-    transform: scale(1.1);
+    background: rgba(255, 255, 255, 0.1);
 }
 
 .header-menu-button svg {
     width: 24px;
     height: 24px;
-    color: var(--text-color);
+    color: #fff;
 }
 
 .sidebar {
     position: fixed;
     top: 0;
-    right: -100%;
+    right: -320px;
     width: 300px;
     height: 100%;
     background: var(--sidebar-background);
     backdrop-filter: blur(30px);
     -webkit-backdrop-filter: blur(30px);
     z-index: 1000;
-    transition: right 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    padding: 25px;
+    transition: right 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    padding: 20px;
     overflow-y: auto;
-    border-left: 1px solid rgba(255, 255, 255, 0.1);
+    border-left: 1px solid var(--sidebar-border);
 }
 
 .sidebar.open {
@@ -129,24 +151,25 @@ body::-webkit-scrollbar {
 
 .sidebar-close {
     position: absolute;
-    top: 20px;
-    right: 20px;
-    font-size: 1.8rem;
+    top: 15px;
+    right: 15px;
+    font-size: 1.5rem;
     cursor: pointer;
     width: 40px;
     height: 40px;
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: transform var(--transition-speed) ease;
+    border-radius: 50%;
+    transition: background 0.3s ease;
 }
 
 .sidebar-close:hover {
-    transform: rotate(90deg);
+    background: rgba(255, 255, 255, 0.1);
 }
 
 .sidebar-search {
-    margin-top: 45px;
+    margin-top: 35px;
     position: relative;
 }
 
@@ -161,33 +184,54 @@ body::-webkit-scrollbar {
 .sidebar-textarea {
     width: 100%;
     padding: 12px 15px 12px 45px;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    background-color: rgba(0, 0, 0, 0.3);
+    border: 1px solid var(--sidebar-border);
+    background-color: rgba(255, 255, 255, 0.05);
     color: var(--text-color);
-    font-size: 1rem;
+    font-size: 14px;
     outline: 0;
-    height: 48px;
+    height: 45px;
     resize: none;
-    border-radius: var(--border-radius-small);
-    transition: all var(--transition-speed) ease;
+    border-radius: var(--border-radius-large);
+    transition: all 0.3s ease;
 }
 
 .sidebar-textarea:focus {
-    border-color: var(--highlight-color);
-    box-shadow: 0 0 15px rgba(120, 100, 255, 0.3);
+    border-color: var(--filter-active);
+    box-shadow: 0 0 15px rgba(0, 170, 255, 0.3);
+}
+
+.sidebar-textarea::placeholder {
+    color: var(--search-placeholder);
 }
 
 .filter-tab.active,
 .sidebar-filter-button.active {
     background: var(--filter-active);
     color: var(--filter-active-text);
-    box-shadow: 0 4px 15px rgba(120, 100, 255, 0.3);
+    box-shadow: 0 0 15px rgba(0, 170, 255, 0.5);
+}
+
+.sidebar-filters {
+    margin-top: 15px;
+}
+
+.sidebar-filter-group {
+    margin-bottom: 15px;
+}
+
+.sidebar-filter-title {
+    color: var(--filter-active);
+    font-size: 14px;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
 
 .sidebar-filter-options {
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 5px;
 }
 
 .sidebar-filter-button {
@@ -196,36 +240,27 @@ body::-webkit-scrollbar {
     color: var(--text-color);
     border: none;
     border-radius: var(--border-radius-small);
-    font-size: 0.9rem;
+    font-size: 14px;
     cursor: pointer;
-    transition: all var(--transition-speed) ease;
+    transition: background 0.2s ease;
     text-align: left;
     position: relative;
 }
 
 .sidebar-filter-button:hover {
-    background-color: rgba(255, 255, 255, 0.05);
+    background: rgba(255, 255, 255, 0.1);
 }
 
-.icon-card,
-.pagination {
-    background: var(--card-background);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    user-select: none;
-}
-
-.pagination button,
-.pagination button:hover {
-    color: var(--text-color);
+.sidebar-filter-button.active {
+    font-weight: 700;
 }
 
 .container {
-    padding: 25px 20px;
-    max-width: 1400px;
+    padding: 20px 15px;
+    max-width: 1200px;
     margin: 0 auto;
     width: 100%;
-    transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    transition: transform 0.3s ease;
 }
 
 .grid-container {
@@ -234,11 +269,26 @@ body::-webkit-scrollbar {
     grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
 }
 
+@media (max-width: 480px) {
+    .grid-container {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 10px;
+    }
+
+    .header {
+        padding: 10px;
+    }
+
+    .header-menu-button {
+        width: 35px;
+        height: 35px;
+    }
+}
+
 .icon-card {
     text-align: center;
     cursor: pointer;
     border: 1px solid var(--card-border);
-    border-radius: var(--border-radius-large);
     aspect-ratio: 1/1;
     width: 100%;
     position: relative;
@@ -246,25 +296,18 @@ body::-webkit-scrollbar {
     align-items: center;
     justify-content: center;
     overflow: hidden;
-    transition: all var(--transition-speed) cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    transform: perspective(1000px);
+    transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    background: var(--card-background);
+    border-radius: var(--border-radius-large);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    transform: scale(1);
 }
 
 .icon-card:hover {
-    transform: translateY(-10px) rotateX(10deg) rotateY(5deg);
-    border-color: var(--card-hover-border);
-    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
-}
-
-.icon-card .card-bg, .icon-card .card-icon {
-    transition: transform var(--transition-speed) ease;
-}
-
-.icon-card:hover .card-bg {
-    transform: scale(1.1);
-}
-.icon-card:hover .card-icon {
-    transform: translate(-50%, -50%) scale(1.15);
+    border: 1px solid var(--card-hover-border);
+    transform: scale(1.05);
+    box-shadow: 0 0 20px rgba(0, 170, 255, 0.4);
 }
 
 .icon-card .card-bg {
@@ -275,6 +318,7 @@ body::-webkit-scrollbar {
     height: 100%;
     object-fit: cover;
     z-index: 1;
+    opacity: 0.8;
 }
 
 .icon-card .card-icon {
@@ -288,10 +332,11 @@ body::-webkit-scrollbar {
     left: 50%;
     transform: translate(-50%, -50%);
     z-index: 2;
+    animation: fadeIn 0.5s ease-out forwards;
 }
 
 .pagination-container {
-    margin-top: 25px;
+    margin-top: 20px;
     display: flex;
     justify-content: center;
     width: 100%;
@@ -301,10 +346,14 @@ body::-webkit-scrollbar {
     display: flex;
     overflow-x: auto;
     white-space: nowrap;
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--pagination-border);
     padding: 8px;
     border-radius: var(--border-radius-large);
+    max-width: 100%;
     scrollbar-width: none;
+    background: var(--pagination-background);
 }
 
 .pagination::-webkit-scrollbar {
@@ -312,20 +361,26 @@ body::-webkit-scrollbar {
 }
 
 .pagination button {
-    padding: 8px 18px;
+    padding: 8px 15px;
     margin: 0 5px;
     border: none;
     background: transparent;
     cursor: pointer;
     border-radius: var(--border-radius-small);
-    font-size: 1rem;
-    transition: all var(--transition-speed) ease;
+    font-size: 14px;
+    transition: all 0.3s ease;
+    color: var(--text-color);
+}
+
+.pagination button:hover {
+    background: rgba(255, 255, 255, 0.2);
 }
 
 .pagination button.active {
     background: var(--button-active-background);
     color: var(--button-active-text);
-    box-shadow: 0 4px 15px rgba(120, 100, 255, 0.3);
+    box-shadow: 0 0 10px rgba(0, 170, 255, 0.5);
+    font-weight: 500;
 }
 
 .loading-dot {
@@ -335,23 +390,23 @@ body::-webkit-scrollbar {
     transform: translate(-50%, -50%);
     width: 25px;
     height: 25px;
-    background-color: var(--highlight-color);
+    background-color: var(--text-color);
     border-radius: 50%;
-    animation: 1.5s ease-in-out infinite pulse;
     z-index: 9999;
+    animation: glowPulse 1.5s ease-in-out infinite;
 }
 
-@keyframes pulse {
+@keyframes glowPulse {
     0%,
     100% {
         opacity: 0.5;
         transform: translate(-50%, -50%) scale(0.8);
-        box-shadow: 0 0 0 0 rgba(120, 100, 255, 0.7);
+        box-shadow: 0 0 10px #fff;
     }
     50% {
         opacity: 1;
         transform: translate(-50%, -50%) scale(1.2);
-        box-shadow: 0 0 0 15px rgba(120, 100, 255, 0);
+        box-shadow: 0 0 25px #fff;
     }
 }
 
@@ -361,24 +416,24 @@ body::-webkit-scrollbar {
 }
 
 .sidebar-menu {
-    margin-top: 25px;
+    margin-top: 20px;
 }
 
 .filter-tab {
-    padding: 10px 18px;
-    background: rgba(255, 255, 255, 0.05);
+    padding: 8px 15px;
+    background: rgba(255, 255, 255, 0.1);
     color: var(--text-color);
-    border: 1px solid transparent;
+    border: none;
     border-radius: var(--border-radius-small);
-    font-size: 0.9rem;
+    font-size: 14px;
     cursor: pointer;
-    transition: all var(--transition-speed) ease;
+    transition: all 0.3s ease;
     white-space: nowrap;
     flex-shrink: 0;
 }
 
 .filter-tab:hover {
-    background-color: rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.2);
 }
 
 .sidebar-menu-item {
@@ -387,10 +442,15 @@ body::-webkit-scrollbar {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+#changelogButton:hover {
+    text-shadow: 0 0 10px #00aaff;
 }
 
 .sidebar-menu-item svg {
-    transition: transform var(--transition-speed) ease;
+    transition: transform 0.3s ease;
 }
 
 .sidebar-menu-item.active svg {
@@ -400,8 +460,8 @@ body::-webkit-scrollbar {
 .sidebar-submenu {
     max-height: 0;
     overflow: hidden;
-    transition: max-height 0.5s ease-in-out;
-    padding-left: 20px;
+    transition: max-height 0.4s ease-in-out;
+    padding-left: 15px;
 }
 
 .sidebar-submenu.open {
@@ -411,20 +471,20 @@ body::-webkit-scrollbar {
 .github-footer {
     display: flex;
     justify-content: center;
-    margin-top: 25px;
-    padding: 20px;
+    margin-top: 20px;
+    padding: 15px;
 }
 
 .github-icon {
-    width: 36px;
-    height: 36px;
+    width: 32px;
+    height: 32px;
     cursor: pointer;
     transition: transform 0.3s ease, color 0.3s ease;
 }
 
 .github-icon:hover {
-    transform: scale(1.2);
-    color: var(--highlight-color);
+    transform: scale(1.1);
+    color: #00aaff;
 }
 
 .modal {
@@ -437,89 +497,103 @@ body::-webkit-scrollbar {
     backdrop-filter: blur(25px);
     -webkit-backdrop-filter: blur(25px);
     z-index: 1000;
+    overflow: hidden;
     align-items: center;
     justify-content: center;
-    animation: fadeIn 0.5s ease;
+    animation: fadeIn 0.3s ease;
 }
 
 @keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
 }
 
 .modal.show {
     display: flex;
 }
 
+.modal-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.3);
+}
+
 .modal-content {
-    padding: 30px;
+    padding: var(--spacing-large);
     text-align: left;
-    max-width: 90%;
-    width: 450px;
-    background: rgba(25, 25, 30, 0.7);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    max-width: 400px;
+    width: 90%;
+    max-height: 90vh;
+    overflow-y: auto;
+    position: relative;
+    z-index: 1001;
+    background: rgba(0, 0, 0, 0.6);
     border-radius: var(--border-radius-large);
-    box-shadow: 0 20px 50px var(--shadow-color);
-    transform: scale(0.9);
-    transition: all var(--transition-speed) cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    animation: slideIn 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    animation: slideUp 0.4s cubic-bezier(0.165, 0.84, 0.44, 1) forwards;
 }
 
-@keyframes slideIn {
-    from { transform: translateY(50px) scale(0.9); opacity: 0; }
-    to { transform: translateY(0) scale(1); opacity: 1; }
-}
-
-.modal.show .modal-content {
-    opacity: 1;
-    transform: scale(1);
+@keyframes slideUp {
+    from {
+        transform: translateY(50px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
 }
 
 .modal img {
     width: 120px;
     height: 120px;
-    margin-bottom: 20px;
+    margin-bottom: var(--spacing-medium);
     border-radius: var(--border-radius-small);
     user-select: none;
     display: block;
-    margin: 0 auto 20px;
+    margin: 0 auto var(--spacing-medium);
     object-fit: contain;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
 }
 
 .modal-close {
-    margin-top: 20px;
-    padding: 12px 20px;
+    margin-top: var(--spacing-medium);
+    padding: 10px 20px;
     border: none;
     background: rgba(255, 255, 255, 0.1);
-    color: #ccc;
-    font-size: 1rem;
+    color: var(--text-color);
+    font-size: 14px;
     cursor: pointer;
-    border-radius: var(--border-radius-small);
+    border-radius: var(--border-radius-large);
     transition: all var(--transition-speed) ease;
     width: 100%;
     user-select: none;
 }
 
 .modal-close:hover {
-    background: var(--highlight-color);
-    color: #fff;
-    box-shadow: 0 4px 15px rgba(120, 100, 255, 0.3);
+    background: var(--button-active-background);
+    box-shadow: 0 0 10px rgba(0, 170, 255, 0.5);
 }
 
 .data-type-selector {
     display: flex;
     justify-content: center;
     margin: 20px 0;
-    background: rgba(0, 0, 0, 0.2);
+    background: rgba(255, 255, 255, 0.1);
     border-radius: var(--border-radius-large);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    padding: 8px;
-    gap: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    padding: 5px;
+    gap: 5px;
 }
 
 .data-type-button {
-    padding: 10px 20px;
+    padding: 8px 20px;
     text-align: center;
     background: transparent;
     border: none;
@@ -527,19 +601,38 @@ body::-webkit-scrollbar {
     color: var(--text-color);
     cursor: pointer;
     transition: all 0.3s ease;
-    font-size: 1rem;
+    font-size: 14px;
     flex: 1;
 }
 
 .data-type-button.active {
     background: var(--button-active-background);
-    color: var(--button-active-text);
-    box-shadow: 0 4px 15px rgba(120, 100, 255, 0.3);
+    color: #fff;
+    box-shadow: 0 0 10px rgba(0, 170, 255, 0.5);
 }
 
-@media (max-width: 600px) {
-    .sidebar {
-        width: 100%;
-        right: -100%;
-    }
+.changelog-entry {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: var(--border-radius-small);
+    padding: 15px;
+    margin-bottom: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    animation: fadeIn 0.5s ease forwards;
+}
+
+.changelog-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.changelog-version {
+    font-weight: bold;
+    color: var(--filter-active);
+}
+
+.changelog-date {
+    font-size: 0.9em;
+    color: #aaa;
 }
