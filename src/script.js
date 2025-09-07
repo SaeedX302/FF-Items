@@ -107,20 +107,6 @@ document.addEventListener("DOMContentLoaded", () => {
      });
 });
 
-function openChangelogModal() {
-    const changelogModal = document.getElementById("changelogModal");
-    if (changelogModal) {
-        changelogModal.classList.add("show");
-    }
-}
-
-function closeChangelogModal() {
-    const changelogModal = document.getElementById("changelogModal");
-    if (changelogModal) {
-        changelogModal.classList.remove("show");
-    }
-}
-
 function toggleSubmenu(type) {
      const menuItem = document.getElementById(`${type}Menu`);
      const submenu = document.getElementById(`${type}Submenu`);
@@ -592,6 +578,21 @@ function closeModal() {
           modal.classList.remove("show");
      }
 }
+
+function openChangelogModal() {
+    const changelogModal = document.getElementById("changelogModal");
+    if (changelogModal) {
+        changelogModal.classList.add("show");
+    }
+}
+
+function closeChangelogModal() {
+    const changelogModal = document.getElementById("changelogModal");
+    if (changelogModal) {
+        changelogModal.classList.remove("show");
+    }
+}
+
 
 function copyToClipboard(text, type) {
      if (navigator.clipboard && window.isSecureContext) {
