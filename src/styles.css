@@ -201,17 +201,20 @@ body::-webkit-scrollbar {
 }
 
 .sidebar-filter-button {
-    padding: 8px 10px;
-    background: transparent;
+    padding: 10px 15px;
+    background: rgba(255, 255, 255, 0.05);
     color: var(--text-color);
     border: none;
-    border-radius: 0;
-    font-size: 12px;
+    border-radius: 8px;
+    font-size: 13px;
     cursor: pointer;
-    transition: 0.2s;
+    transition: background 0.2s, color 0.2s;
     text-align: left;
     position: relative;
-    padding-left: 15px;
+}
+
+.sidebar-filter-button:hover {
+    background: rgba(255, 255, 255, 0.1);
 }
 
 .sidebar-filter-button::before {
@@ -221,8 +224,9 @@ body::-webkit-scrollbar {
     top: 50%;
     transform: translateY(-50%);
     height: 60%;
-    width: 2px;
+    width: 3px;
     background-color: transparent;
+    border-radius: 0 3px 3px 0;
 }
 
 .sidebar-filter-button.active::before {
@@ -240,12 +244,9 @@ body::-webkit-scrollbar {
     color: var(--text-color);
 }
 
-.sidebar-filter-button:active {
-    font-weight: 700;
-}
-
 .sidebar-filter-button.active {
     border-color: var(--filter-active);
+    font-weight: bold;
 }
 
 .container {
@@ -544,8 +545,8 @@ body::-webkit-scrollbar {
 .github-footer {
     display: flex;
     justify-content: center;
-    margin-top: 20px;
-    padding: 15px;
+    margin-top: 40px;
+    padding: 15px 15px 5px 15px;
 }
 
 .github-icon {
@@ -566,8 +567,8 @@ body::-webkit-scrollbar {
     left: 0;
     width: 100%;
     height: 100%;
-    backdrop-filter: blur(35px);
-    -webkit-backdrop-filter: blur(35px);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
     z-index: 1000;
     overflow: hidden;
     touch-action: none;
@@ -597,14 +598,14 @@ body::-webkit-scrollbar {
 .modal-content {
     padding: var(--spacing-large);
     text-align: left;
-    border: none;
+    border: 1px solid rgba(255,255,255,0.1);
     max-width: 100%;
     max-height: 90vh;
     overflow-y: auto;
     position: relative;
     z-index: 1001;
     width: 400px;
-    background: transparent;
+    background: rgba(0,0,0,0.5);
     border-radius: 10px;
     transform: scale(0.9);
     transition: all var(--transition-speed) ease;
@@ -713,9 +714,44 @@ body::-webkit-scrollbar {
 
 .sidebar-footer {
     text-align: center;
-    margin-top: 20px;
+    margin-top: 5px;
     color: #888;
     font-size: 12px;
+}
+
+.changelog-content {
+    width: 90%;
+    max-width: 550px;
+}
+
+.changelog-content h2 {
+    text-align: center;
+    color: var(--filter-active);
+    margin-top: 0;
+    margin-bottom: 25px;
+}
+
+.changelog-content ul {
+    list-style: none;
+    padding: 0;
+}
+
+.changelog-content li {
+    padding: 15px 0;
+    border-bottom: 1px solid #222;
+    font-size: 14px;
+    color: #ccc;
+}
+.changelog-content li:last-child {
+    border-bottom: none;
+}
+
+.changelog-content li b {
+    display: block;
+    color: #fff;
+    font-weight: bold;
+    margin-bottom: 5px;
+    font-size: 15px;
 }
 
 
