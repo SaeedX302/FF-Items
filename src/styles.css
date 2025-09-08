@@ -687,6 +687,7 @@ body::-webkit-scrollbar {
     text-align: center;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
     transition: transform 0.2s, box-shadow 0.2s;
+    margin-top: 8px;
 }
 
 #changelogButton:hover {
@@ -698,16 +699,18 @@ body::-webkit-scrollbar {
     background: #ff3b30;
     color: #fff;
     font-weight: bold;
-    border-radius: 10px;
-    padding: 12px;
+    border-radius: 8px;
+    padding: 10px;
     text-align: center;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
     transition: transform 0.2s, box-shadow 0.2s;
+    width: 150px;
+    margin: 0 auto;
 }
 
 #clearFiltersButton:hover {
     transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
 }
 
 .sidebar-footer {
