@@ -196,41 +196,28 @@ body::-webkit-scrollbar {
 
 .sidebar-filter-options {
     display: flex;
-    flex-direction: column;
-    gap: 5px;
+    flex-wrap: wrap;
+    gap: 8px;
 }
 
 .sidebar-filter-button {
-    padding: 10px 15px;
+    padding: 8px 12px;
     background: rgba(255, 255, 255, 0.05);
     color: var(--text-color);
     border: none;
     border-radius: 8px;
-    font-size: 13px;
+    font-size: 12px;
     cursor: pointer;
     transition: background 0.2s, color 0.2s;
-    text-align: left;
-    position: relative;
 }
 
 .sidebar-filter-button:hover {
     background: rgba(255, 255, 255, 0.1);
 }
 
-.sidebar-filter-button::before {
-    content: "";
-    position: absolute;
-    left: 0;
-    top: 50%;
-    transform: translateY(-50%);
-    height: 60%;
-    width: 3px;
-    background-color: transparent;
-    border-radius: 0 3px 3px 0;
-}
-
-.sidebar-filter-button.active::before {
-    background-color: var(--filter-active);
+.sidebar-filter-button.active {
+    border-color: var(--filter-active);
+    font-weight: bold;
 }
 
 .icon-card,
@@ -242,11 +229,6 @@ body::-webkit-scrollbar {
 .pagination button,
 .pagination button:hover {
     color: var(--text-color);
-}
-
-.sidebar-filter-button.active {
-    border-color: var(--filter-active);
-    font-weight: bold;
 }
 
 .container {
@@ -545,8 +527,8 @@ body::-webkit-scrollbar {
 .github-footer {
     display: flex;
     justify-content: center;
-    margin-top: 40px;
-    padding: 15px 15px 5px 15px;
+    margin-top: 20px;
+    padding: 15px;
 }
 
 .github-icon {
@@ -714,7 +696,7 @@ body::-webkit-scrollbar {
 
 .sidebar-footer {
     text-align: center;
-    margin-top: 5px;
+    margin-top: 20px;
     color: #888;
     font-size: 12px;
 }
