@@ -61,6 +61,7 @@ document.addEventListener("DOMContentLoaded", () => {
      const changelogButton = document.getElementById("changelogButton");
      const changelogModalBg = document.getElementById("changelogModalBg");
      const changelogModalClose = document.getElementById("changelogModalClose");
+     const clearFiltersButton = document.getElementById("clearFiltersButton");
 
      if (menuButton) menuButton.addEventListener("click", toggleSidebar);
      if (sidebarClose) sidebarClose.addEventListener("click", toggleSidebar);
@@ -70,6 +71,7 @@ document.addEventListener("DOMContentLoaded", () => {
      if (changelogButton) changelogButton.addEventListener("click", openChangelogModal);
      if (changelogModalBg) changelogModalBg.addEventListener("click", closeChangelogModal);
      if (changelogModalClose) changelogModalClose.addEventListener("click", closeChangelogModal);
+     if (clearFiltersButton) clearFiltersButton.addEventListener("click", clearFilters);
 
      if (itemsButton) itemsButton.addEventListener("click", () => switchDataType("items"));
      if (assetsButton) assetsButton.addEventListener("click", () => switchDataType("assets"));
@@ -518,6 +520,23 @@ function changePage(page) {
 
 function filterIcons() {
      applyFilters();
+}
+
+function clearFilters() {
+    currentTypeFilter = "";
+    currentCollectionFilter = "";
+    currentRarityFilter = "";
+
+    document.querySelectorAll(".filter-tab").forEach((tab) => tab.classList.remove("active"));
+    document.querySelector(".filter-tab").classList.add("active");
+
+    document.querySelectorAll(".sidebar-filter-button").forEach((btn) => {
+        if (btn.dataset.filterType !== "sort") {
+            btn.classList.remove("active");
+        }
+    });
+
+    applyFilters();
 }
 
 function showModal(item) {
