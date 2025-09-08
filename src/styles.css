@@ -694,6 +694,22 @@ body::-webkit-scrollbar {
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
 }
 
+#clearFiltersButton {
+    background: #ff3b30;
+    color: #fff;
+    font-weight: bold;
+    border-radius: 10px;
+    padding: 12px;
+    text-align: center;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+#clearFiltersButton:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+}
+
 .sidebar-footer {
     text-align: center;
     margin-top: 20px;
@@ -731,9 +747,20 @@ body::-webkit-scrollbar {
     margin: 5px 0 0;
 }
 
-.changelog-content ul {
+.changelog-list {
     list-style: none;
     padding: 0;
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.changelog-list::-webkit-scrollbar {
+    width: 5px;
+}
+
+.changelog-list::-webkit-scrollbar-thumb {
+    background: #ffba00;
+    border-radius: 5px;
 }
 
 .changelog-content li {
@@ -796,7 +823,6 @@ body::-webkit-scrollbar {
     background: #28a745;
     color: #fff;
 }
-
 
 /**
 @license MIT
