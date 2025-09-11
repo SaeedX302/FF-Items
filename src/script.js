@@ -518,10 +518,23 @@ function changePage(page) {
      window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
+/**
+ * Re-apply the active search, filters, and sort to refresh the displayed items/assets.
+ *
+ * This is a small helper that delegates to `applyFilters()` so UI handlers can request
+ * a filter refresh without depending on `applyFilters()` directly.
+ */
 function filterIcons() {
      applyFilters();
 }
 
+/**
+ * Reset all active filters and UI filter states, then reapply filtering.
+ *
+ * Clears the current type, collection, and rarity filters, deactivates all non-sort sidebar filter buttons,
+ * clears the active state on filter tabs and activates the first `.filter-tab` (the "ALL" tab), and then
+ * calls `applyFilters()` to refresh the visible item/asset list.
+ */
 function clearFilters() {
     currentTypeFilter = "";
     currentCollectionFilter = "";
@@ -539,6 +552,25 @@ function clearFilters() {
     applyFilters();
 }
 
+/**
+ * Populate and display the detail modal for an item or asset.
+ *
+ * For dataType === "item" the modal is filled with the item's image, name, secondary description (falls back to primary description or "No description provided"),
+ * itemId, iconName, itemType, and displayRarity; related fields and dividers are made visible.
+ * For non-item data (assets) the modal shows only the image and name, sets itemId to "Unavailable in assets mode.", hides secondary/detail fields and dividers.
+ * If the image fails to load a fallback error image is used.
+ *
+ * @param {Object} item - The item or asset to show. Expected properties:
+ *   - {string} item.dataType - "item" for full item details, otherwise treated as an asset.
+ *   - {string} item.iconUrl - URL for the modal image.
+ *   - {string} [item.name] - Display name.
+ *   - {string} [item.description] - Primary description.
+ *   - {string} [item.description2] - Secondary description (preferred when present).
+ *   - {string|number} [item.itemId] - Item identifier (shown only for dataType "item").
+ *   - {string} [item.iconName] - Internal icon name (shown only for dataType "item").
+ *   - {string} [item.itemType] - Item type/category (shown only for dataType "item").
+ *   - {string} [item.displayRarity] - Human-readable rarity label (shown only for dataType "item").
+ */
 function showModal(item) {
      const modal = document.getElementById("modal");
      const modalImage = document.getElementById("modalImage");
@@ -591,6 +623,11 @@ function showModal(item) {
      }
 }
 
+/**
+ * Hide the main detail modal.
+ *
+ * Removes the "show" class from the element with id "modal" if it exists, causing the modal to be hidden.
+ */
 function closeModal() {
      const modal = document.getElementById("modal");
      if (modal) {
@@ -598,6 +635,11 @@ function closeModal() {
      }
 }
 
+/**
+ * Show the changelog modal by adding the "show" class to the element with id "changelogModal".
+ *
+ * If the element is not present in the DOM, the function does nothing.
+ */
 function openChangelogModal() {
     const changelogModal = document.getElementById("changelogModal");
     if (changelogModal) {
@@ -605,6 +647,11 @@ function openChangelogModal() {
     }
 }
 
+/**
+ * Close the changelog modal if it's present by removing its "show" class.
+ *
+ * This is a no-op when the changelog modal element cannot be found in the DOM.
+ */
 function closeChangelogModal() {
     const changelogModal = document.getElementById("changelogModal");
     if (changelogModal) {
@@ -613,6 +660,13 @@ function closeChangelogModal() {
 }
 
 
+/**
+ * Copy the provided text to the user's clipboard, preferring the asynchronous Clipboard API and falling back to a textarea-based method on failure.
+ *
+ * On success this triggers a copy notification for the given `type`. If the Clipboard API is unavailable or the write fails, the function logs the error and invokes the fallback copier.
+ * @param {string} text - The text to copy.
+ * @param {string} type - Context label used for the copy notification (e.g., "name", "id", "icon").
+ */
 function copyToClipboard(text, type) {
      if (navigator.clipboard && window.isSecureContext) {
           navigator.clipboard
